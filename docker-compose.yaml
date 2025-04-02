@@ -1,0 +1,40 @@
+services:
+  www:
+    depends_on:
+      - db
+    build:
+      context: ./docker/php
+    volumes:
+    - "./src:/var/www/html"
+    ports:
+    - 8080:80
+    networks:
+      - xwebapp-network
+
+  db:
+    image: mariadb:latest
+    environment:
+      - MARIADB_DATABASE=xwebapp
+      - MARIADB_USER=xwebapp
+      - MARIADB_PASSWORD=@Y01z)2mmPU
+      - MARIADB_ROOT_PASSWORD={12'x*P45500
+    networks:
+      - xwebapp-network
+    volumes:
+      - "./db:/docker-entrypoint-initdb.d"
+
+  phpmyadmin:
+    depends_on:
+      - db
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - 8081:80
+    environment:
+      - PMA_HOST=db
+      - PMA_PORT=3306
+    networks:
+      - xwebapp-network
+
+networks:
+  xwebapp-network:
+    driver: bridge
