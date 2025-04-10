@@ -1,0 +1,36 @@
+{
+    "/": {
+      "methods": ["*"]
+    },
+    "/pages/index.php": {
+      "methods": ["GET", "POST"],
+      "payloads": {
+        "GET": "",
+        "POST": ""
+      }
+    },
+    "/pages/xss.php": {
+      "methods": ["GET"],
+      "payloads": {
+        "POST": ""
+      }
+    },
+    "/pages/sqli.php": {
+      "methods": ["GET"],
+      "payloads": {
+        "POST": ""
+      }
+    },
+    "/pages/command-injection.php": {
+      "methods": ["GET"],
+      "payloads": {
+        "POST": ""
+      }
+    },
+    "/pages/path-traversal.php": {
+      "methods": ["GET"],
+      "payloads": {
+        "POST": ""
+      }
+    }
+  }

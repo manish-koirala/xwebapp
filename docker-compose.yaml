@@ -7,7 +7,18 @@ services:
     volumes:
     - "./src:/var/www/html"
     ports:
-    - 80:80
+    - 8000:80
+    networks:
+      - xwebapp-network
+
+  xwaff:
+    container_name: xwaff
+    build:
+      context: ./waf
+    volumes:
+    - "./waf:/xwaff"
+    ports:
+    - 5000:5000
     networks:
       - xwebapp-network
 
