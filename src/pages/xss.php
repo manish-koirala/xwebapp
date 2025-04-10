@@ -1,3 +1,10 @@
+<?php 
+// Start the session 
+  if (session_status() == PHP_SESSION_NONE) session_start();
+// Include the tasks.php
+  include("../functions/tasks.php") 
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,7 +26,7 @@
         </div>
         <div class="card-body">
             <div class="container">
-                <form onsubmit="handleSubmit(event)">
+                <form action="../functions/tasks.php" method="POST">
                     <div class="form-floating mb-3">
                         <input class="form-control" type="text" name="task" id="task" placeholder="Add a task here.">
                         <label class="form-label" for="task">Task</label>
@@ -34,6 +41,9 @@
                     </thead>
                     <tbody id="tableBody">
                         <!-- Fill with the tasks obtained from the backend. -->
+                    <?php if (!isset($_SESSION["tasks"])): ?>
+                      <tr><td class="text-center" colspan=3>No records found yet.</td></tr>
+                    <?php endif; ?>
                     </tbody>
                 </table>
             </div>
@@ -44,17 +54,9 @@
     <?php include("../inc/footer.php"); ?>
 
     <script>
-        // Make the "About" link active.
+        // Make the "About" link ac:tive.
         document.getElementsByClassName("nav-link")[1].classList.add("active");
 
-        const tableBody = document.getElementById("tableBody");
-        if (tableBody.children.length == 0) {
-            const p = document.createElement("p")
-            p.innerText = "No items added to the list yet."
-            p.classList.add("text-center")
-            p.classList.add("mt-2")
-            tableBody.appendChild(p)
-        }
     </script>
 </body>
 </html>
