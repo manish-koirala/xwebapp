@@ -1,7 +1,5 @@
 <?php 
-// Start the session 
-  if (session_status() == PHP_SESSION_NONE) session_start();
-// Include the tasks.php
+  // Include the tasks.php
   include("../functions/tasks.php") 
 ?>
 
@@ -36,12 +34,16 @@
                 <table class="table table-primary table-striped mt-5">
                     <thead>
                         <tr>
-                            <td class="text-center"><b>Tasks</b></td>
+                            <th colspan=2 class="text-center"><b>Tasks</b></th>
                         </tr>
                     </thead>
                     <tbody id="tableBody">
                         <!-- Fill with the tasks obtained from the backend. -->
-                    <?php if (!isset($_SESSION["tasks"])): ?>
+                    <?php if ($tasks): ?>
+                        <?php foreach($tasks as $task): ?>
+                            <tr><td class="text-center"><?php echo $task[0]?></td><td><?php echo $task[1]?></td></tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
                       <tr><td class="text-center" colspan=3>No records found yet.</td></tr>
                     <?php endif; ?>
                     </tbody>

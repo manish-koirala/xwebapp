@@ -1,24 +1,27 @@
 <?php
 
-// Require the database connection
+// Require database connection.
 define("CONN_DB", true);
 include("../inc/database.php");
 $db = $conn;
 
-// If post request is recieved.
-if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["task"])) {
-// Store the task in the tasks table.
-  $task = $_POST["task"];
-  $insertTaskQuery = "INSERT INTO tasks (detail) VALUES '$task'";
-  $db->query($insertTaskQuery);
-
+// If GET request, Look for database records and set the $tasks var.
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+  $tasks_query = "SELECT id, detail FROM tasks ORDER BY id";
+  $result = $db->query($tasks_query);
+  $tasks = [];
+  if ($result->num_rows > 0) {
+    while ($task = $result->fetch_object()) {
+      $tasks[] = array($task->id, $task->detail);
+    }
+  }
 }
-// Set the value of tasks session variable as obtained from the tasks table.
-$tasks_query = "SELECT * FROM tasks";
-$result = $db->query($tasks_query);
-if ($result->num_rows > 0) {
-  // Set the session variable.
 
-} 
 
-?>
+// If POST request, generate a new task and add it to the database.
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["task"])) {
+  $task = $_POST["task"];
+  $insertTaskQuery = "INSERT INTO tasks (detail) VALUES ('$task')";
+  $db->query($insertTaskQuery);
+  header("Location: ../pages/xss.php");
+}
