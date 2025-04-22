@@ -3,34 +3,44 @@
       "methods": ["*"]
     },
     "/pages/index.php": {
-      "methods": ["GET", "POST"],
-      "payloads": {
-        "GET": "",
-        "POST": ""
-      }
+      "methods": ["GET"],
+      "payloads": {}
     },
     "/pages/xss.php": {
-      "methods": ["GET"],
+      "methods": ["GET", "POST"],
       "payloads": {
-        "POST": ""
+        "GET": {},
+        "POST": {
+          "task": "<\\s?script\\s?"      
+        }
       }
     },
     "/pages/sqli.php": {
-      "methods": ["GET"],
+      "methods": ["GET", "POST"],
       "payloads": {
-        "POST": ""
+        "GET": {},
+        "POST": {
+          "username": "(')|(' OR '1'='1'#)",      
+          "password": "(')|(' OR '1'='1'#)"      
+        }
       }
     },
     "/pages/command-injection.php": {
-      "methods": ["GET"],
+      "methods": ["GET", "POST"],
       "payloads": {
-        "POST": ""
+        "GET": {},
+        "POST": {
+          "target": ";|ping|echo|cd|cat"     
+        }
       }
     },
     "/pages/path-traversal.php": {
-      "methods": ["GET"],
+      "methods": ["GET", "POST"],
       "payloads": {
-        "POST": ""
+        "GET": {
+          "file": "\\./|\\.\\./"
+        },
+        "POST": {}
       }
     }
   }

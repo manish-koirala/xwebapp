@@ -20,5 +20,22 @@ def check(req):
     
     # If for the particular method, the payloads that are being set have the correct patterns, then accept. 
     # Otherwise reject.
-    
+    for method, params in config[path]["payloads"].items():
+        if method == "GET":
+            for param, pattern in params.items():
+                arg = req.args.get(param)
+                if not arg: # If the get parameter is not provided.
+                    return False
+                if re.match(config[path]["payloads"]["method"][param], pattern):
+                    return True
+
+        elif method == "POST":
+            for param, pattern in params.items():
+                arg = req.form.get(param)
+                if not arg: # If the post parameter is not provided.
+                    return False
+                if re.match(config[path]["payloads"]["method"][param], pattern):
+                    return True
+
+
 
