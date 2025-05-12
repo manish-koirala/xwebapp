@@ -1,17 +1,22 @@
 {
     "/": {
-      "methods": ["*"]
+      "methods": ["GET"],
+      "payloads": {
+        "GET": {}
+      }
     },
     "/pages/index.php": {
       "methods": ["GET"],
-      "payloads": {}
+      "payloads": {
+        "GET": {}
+      }
     },
     "/pages/xss.php": {
       "methods": ["GET", "POST"],
       "payloads": {
         "GET": {},
         "POST": {
-          "task": "<\\s?script\\s?"      
+          "task": ["<\\s?script\\s?"]      
         }
       }
     },
@@ -20,8 +25,8 @@
       "payloads": {
         "GET": {},
         "POST": {
-          "username": "(')|(' OR '1'='1'#)",      
-          "password": "(')|(' OR '1'='1'#)"      
+          "username": ["['#-]"],      
+          "password": ["['#-]"]      
         }
       }
     },
@@ -30,17 +35,16 @@
       "payloads": {
         "GET": {},
         "POST": {
-          "target": ";|ping|echo|cd|cat"     
+          "target": [";|ping|echo|cd|cat"]     
         }
       }
     },
     "/pages/path-traversal.php": {
-      "methods": ["GET", "POST"],
+      "methods": ["GET"],
       "payloads": {
         "GET": {
-          "file": "\\./|\\.\\./"
-        },
-        "POST": {}
+          "file": ["\\./"]
+        }
       }
     }
   }

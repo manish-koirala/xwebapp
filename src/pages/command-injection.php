@@ -1,3 +1,5 @@
+<?php include("../functions/ping.php"); ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,22 +21,25 @@
         </div>
         <div class="card-body">
             <h5 class="card-title">View Ping Results To An IP or Domain Name:</h5>
-            <form onsubmit="getResults(event)" class="mb-3">
+            <form action="/pages/command-injection.php" method="post" class="mb-3">
                 <div class="mb-3">
                     <label for="target" class="form-label" >IP or domain: </label>
                     <input type="text" id="target" name="target" class="form-control" placeholder="www.google.com">
                 </div>
                 <button type="submit" class="btn btn-primary mt-2">Ping</button>
             </form>
-            <div class="container d-none" id="ping-results-container">
-                <div class="card text-light bg-secondary">
-                    <div class="card-header text-center">
-                        Results
+            <?php if ($ping_results): ?>
+                <div class="container" id="ping-results-container">
+                    <div class="card text-light bg-secondary">
+                        <div class="card-header text-center">
+                            Results
+                        </div>
+                        <pre class="card-body" id="ping-results">
+                            <?php echo $ping_results ?>
+                        </pre>
                     </div>
-                    <pre class="card-body" id="ping-results">
-                    </pre>
                 </div>
-            </div>
+            <?php endif; ?>
                 
         </div>
      </main>
@@ -45,25 +50,6 @@
     <script>
         // Make the "About" link active.
         document.getElementsByClassName("nav-link")[3].classList.add("active");
-
-
-        // Submit form for getting the ping results.
-        function getResults(event) {
-            event.preventDefault();
-            fetch(`/functions/ping.php?target=${document.getElementById("target").value}`)
-            .then(response => response.text())
-            .then(data => {
-                const resultsContainer = document.getElementById("ping-results-container");
-                const results = document.getElementById("ping-results");
-                if (resultsContainer.classList.contains("d-none")) {
-                    resultsContainer.classList.remove("d-none");
-                }
-                results.innerHTML = data;
-            })
-            .catch(error => {
-                console.error("Error fetching ping results.", error)
-            });
-        }
     </script>
 </body>
 </html>

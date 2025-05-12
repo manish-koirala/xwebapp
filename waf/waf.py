@@ -1,5 +1,13 @@
 import json
 import re
+import urllib.parse
+import logging
+
+logging.basicConfig(
+    filename='xwaff.log',
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
 
 def check(req):
     # Load the configuration
@@ -7,35 +15,43 @@ def check(req):
         config = json.load(f)
 
     # Get the path and method information.
-    path = req.path.split("?")[0]
-    method = req.method
+    current_path = req.path.split("?")[0]
+    current_method = req.method
+    
+    logging.info(f"Current path: {current_path} and current method: {current_method}")
 
-    # If the URL path is not in config, reject.
-    if path not in config:
+    # Check if path exists in the config or not.
+    if not current_path in config.keys():
+        logging.info(f"Current path '{current_path}' not found in allowed paths. Rejecting")
         return True
     
     # If unsupported HTTP method is being used, then reject.
-    if method not in config[path]["methods"]:
+    supported_methods = config[current_path]["methods"]
+    if not "*" in supported_methods and current_method not in supported_methods:
+        logging.info(f"Current method '{current_method}' not supported for this path '{current_path}'. Rejecting")
         return True
-    
-    # If for the particular method, the payloads that are being set have the correct patterns, then accept. 
-    # Otherwise reject.
-    for method, params in config[path]["payloads"].items():
-        if method == "GET":
-            for param, pattern in params.items():
-                arg = req.args.get(param)
-                if not arg: # If the get parameter is not provided.
-                    return False
-                if re.match(config[path]["payloads"]["method"][param], pattern):
-                    return True
+        
+    # Blacklisted patterns
+    # Only run if pattterns are defined.
+    if (config[current_path]["payloads"][current_method]):
+        for param_name, blacklisted_patterns in config[current_path]["payloads"][current_method].items():
+            param_value = ""
+            # First retrieve and normalize the value of parameter
+            if current_method == "GET":
+                param_value = normalize(req.args.get(param_name, ""))
+            elif current_method == "POST":
+                param_value = normalize(req.form.get(param_name, ""))
+            logging.info(f"Provided param-name: {param_name}, value: {param_value}")
+            # Then check against the blacklisted patterns, and if blacklisted, return True.
+            for pattern in blacklisted_patterns:
+                if re.match(pattern, param_value):
+                    logging.info(f"Blacklisted pattern detected: pattern is: {pattern} and the param value is: {param_value}")
+                    return True       
+            
+    # Finally return False, is not blacklisted.
+    return False
 
-        elif method == "POST":
-            for param, pattern in params.items():
-                arg = req.form.get(param)
-                if not arg: # If the post parameter is not provided.
-                    return False
-                if re.match(config[path]["payloads"]["method"][param], pattern):
-                    return True
 
-
-
+def normalize(input):
+    # URL decode then convert to lowercase
+    return urllib.parse.unquote(input).lower()

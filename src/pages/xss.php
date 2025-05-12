@@ -24,7 +24,7 @@
         </div>
         <div class="card-body">
             <div class="container">
-                <form action="../functions/tasks.php" method="POST">
+                <form action="/pages/xss.php" method="post">
                     <div class="form-floating mb-3">
                         <input class="form-control" type="text" name="task" id="task" placeholder="Add a task here.">
                         <label class="form-label" for="task">Task</label>
@@ -58,7 +58,6 @@
     <script>
         // Make the "About" link ac:tive.
         document.getElementsByClassName("nav-link")[1].classList.add("active");
-
     </script>
 </body>
 </html>

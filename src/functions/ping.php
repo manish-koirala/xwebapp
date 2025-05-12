@@ -1,9 +1,8 @@
 <?php
-if($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["target"])) {
+$ping_results = "";
+if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["target"])) {
     $pingResults = [];
-    exec("ping -c 4 " . $_GET["target"], $pingResults);
-    foreach ($pingResults as $line) {
-        echo "$line <br>";
-    }
+    exec("ping -c 4 " . $_POST["target"], $pingResults);
+    $ping_results = implode("\n", $pingResults);
 }
 ?>

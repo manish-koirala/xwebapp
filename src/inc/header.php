@@ -19,7 +19,7 @@
                     <a class="nav-link" href="../pages/path-traversal.php">Path Traversal</a>
                 </li>
             </ul>
-            <a href="https://www.github.com/manish-koirala/xwebapp/" class="navbar-text text-light">View Project</a>
+            <a href="https://www.github.com/manish-koirala/xwebapp/" target="_blank" class="navbar-text text-light">View Project</a>
         </div>       
     </nav>
 </header>
