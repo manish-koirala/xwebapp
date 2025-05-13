@@ -5,20 +5,20 @@ services:
     build:
       context: ./docker/php
     volumes:
-    - "./src:/var/www/html"
+      - "./src:/var/www/html"
     ports:
-    - 8000:80
+      - 8000:80 
     networks:
-      - xwebapp-network
+    - xwebapp-network
 
   xwaff:
     container_name: xwaff
     build:
       context: ./waf
     volumes:
-    - "./waf:/xwaff"
+      - "./waf:/xwaff"
     ports:
-    - 5000:5000
+      - 5000:5000
     networks:
       - xwebapp-network
 

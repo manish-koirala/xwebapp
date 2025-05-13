@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>XWEBAPP</title>
     <!-- Include the bootstrap libraries. -->
-    <link rel="stylesheet" href="../inc/bootstrap-5.3.3-dist/css/bootstrap.css">
-    <script src="../inc/bootstrap-5.3.3-dist/js/bootstrap.js" defer></script>
+    <link rel="stylesheet" href="/inc/bootstrap-5.3.3-dist/css/bootstrap.css">
+    <script src="/inc/bootstrap-5.3.3-dist/js/bootstrap.js" defer></script>
 </head>
 <body>
     <!-- Include the header. -->
