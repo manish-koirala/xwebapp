@@ -35,20 +35,15 @@ def check(req):
                 param_value = ""
                 # First retrieve and normalize the value of parameter
                 if current_method == "GET":
-                    param_value = normalize(req.args.get(param_name, ""))
+                    param_value = req.args.get(param_name, "")
                 elif current_method == "POST":
-                    param_value = normalize(req.form.get(param_name, ""))
+                    param_value = req.form.get(param_name, "")
                 logging.info(f"Provided param-name: {param_name}, value: {param_value}")
                 # Then check against the blacklisted patterns, and if blacklisted, return True.
                 for pattern in blacklisted_patterns:
-                    if re.match(pattern, param_value):
+                    if re.search(pattern, param_value):
                         logging.info(f"Blacklisted pattern detected: pattern is: {pattern} and the param value is: {param_value}")
                         return True       
                 
         # Finally return False, is not blacklisted.
         return False
-
-
-def normalize(input):
-    # URL decode then convert to lowercase
-    return urllib.parse.unquote(input).lower()

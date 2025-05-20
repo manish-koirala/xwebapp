@@ -35,7 +35,7 @@
       "payloads": {
         "GET": {},
         "POST": {
-          "target": [";|ping|echo|cd|cat"]     
+          "target": ["echo", ";", "cat", "nc"]     
         }
       }
     },
@@ -43,7 +43,7 @@
       "methods": ["GET"],
       "payloads": {
         "GET": {
-          "file": ["\\./"]
+          "file": ["\\.\\./"]
         }
       }
     }
